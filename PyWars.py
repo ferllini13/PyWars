@@ -29,6 +29,102 @@ class button(pygame.sprite.Sprite):#se crea la clase para los botones
         else: self.basic_pic=self.unselected_pic #condicion del boton en stand by
         screen.blit(self.basic_pic,self.rect)#que se actualiza la pantalla dependiendo de la accion condicional
 
+def sizesWin(text1,screen):
+	#Set backgroud
+	screen = pygame.display.set_mode((1000,600))
+	screen.fill((255, 255, 255))
+					
+	#Title picture and buttons
+	selectSize=pygame.image.load("one.jpg")
+	submit0=pygame.image.load("two.jpg")
+	
+	#Define buttons
+	bSubmit= Button(submit0,submit0,50,250)
+	
+	#Variables
+	lenghtW=0
+	textBuffer = ''
+	begin=True
+	place=100
+	cursor1=cursor()
+					
+	pygame.init()
+	
+	#Events and updates
+	while begin==True:
+		cursor1.update()
+		#Updates
+		screen.blit(selectSize,(10,0))
+		bSubmit.update(screen,cursor1)	
+		
+		#Makes the labels
+		myfont= pygame.font.SysFont("monospace",25)
+		myfont2= pygame.font.SysFont("monospace",16)
+	
+		labelInd= myfont.render(text1,1,BLACK)		
+		labelNotAllowed1= myfont2.render("The maximun "+text1,1,BLACK)
+		labelNotAllowed2= myfont2.render("allowed is: "+text2,1,BLACK)
+		labelNotAllowed3= myfont2.render("The minimun "+text1,1,BLACK)
+		labelNotAllowed4= myfont2.render("allowed is: "+text3,1,BLACK)
+		
+		screen.blit(labelInd,(10,120))
+		screen.blit(labelNotAllowed1,(10,180))
+		screen.blit(labelNotAllowed2,(10,200))
+		screen.blit(labelNotAllowed3,(10,220))
+		screen.blit(labelNotAllowed4,(10,240))
+		
+		for event in pygame.event.get():
+			#Events on keyboard, for the entry
+			if event.type==pygame.KEYDOWN:
+				
+				#Limit the keys allowed to numbers
+				if	event.key<=122 and event.key>=97 and lenghtW<12*10:
+					#This creates the text of the entry
+					textBuffer=textBuffer+chr(event.key)
+					lenghtW+=15
+					place=place+15
+					myfont= pygame.font.SysFont("monospace",25)
+					label=myfont.render(chr(event.key),1,BLACK)
+					screen.blit(label,(place,120))
+					
+				elif    event.key<=57 and event.key>=48 and lenghtW<12*10:
+					#This creates the text of the entry
+					textBuffer=textBuffer+chr(event.key)
+					lenghtW+=15
+					place=place+15
+					myfont= pygame.font.SysFont("monospace",25)
+					label=myfont.render(chr(event.key),1,BLACK)
+					screen.blit(label,(place,120))
+				
+				#To delete the words
+				elif event.key == pygame.K_BACKSPACE and len(textBuffer)>0:
+					textBuffer=textBuffer[:-1]
+					lenghtW-=15
+					place=place-15
+					myfont= pygame.font.SysFont("monospace",25)
+					label=myfont.render(textBuffer,1,BLACK)
+					screen.fill(WHITE)
+					screen.blit(label,(112,120))
+				
+				#This saves the entry
+				elif event.key==pygame.K_RETURN:
+					if len(textBuffer)>0:
+						begin=False
+						return textBuffer
+
+			#Submit button		
+			elif event.type == pygame.MOUSEBUTTONDOWN:
+				if cursor1.colliderect(bSubmit.rect):
+					if len(textBuffer)>0:
+						begin=False
+						return textBuffer
+						
+			#To Close the window
+			elif event.type == pygame.QUIT:
+				return sys.exit(0)
+
+		#Update the window		
+		pygame.display.flip()
 
 
 def main():

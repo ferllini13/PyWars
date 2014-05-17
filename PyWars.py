@@ -24,8 +24,8 @@ class button(pygame.sprite.Sprite):#se crea la clase para los botones
         
     def update(self,screen,cursor):#se actializa el boton
         if cursor.colliderect(self.rect):#se define la condicion cuando el cursor se pocisione sobre el boton
-            select_sound.play
             self.basic_pic=self.selected_pic
+            select_sound.play
         else: self.basic_pic=self.unselected_pic #condicion del boton en stand by
         screen.blit(self.basic_pic,self.rect)#que se actualiza la pantalla dependiendo de la accion condicional
 
@@ -132,13 +132,34 @@ def main():
     screen=pygame.display.set_mode([1000,720])
     pygame.display.set_caption("Tarea Corta")
     wallp=pygame.image.load("wall2.jpg").convert()
+    pygame.mixer.music.play()
     cursor1=cursor()
-    pygame.mixer.music.play() 
+
+    #se inportan las imagenes de los botones
+    play=pygame.image.load("play.png")
+    play2=pygame.image.load("play2.png")
+    instruc=pygame.image.load("instruc.png")
+    instruc2=pygame.image.load("instruc2.png")
+    salir=pygame.image.load("exit.png")
+    salir2=pygame.image.load("exit2.png")
+    
+    bplay=button(play,play2,600,200)
+    binstruc=button(instruc,instruc2,650,300)
+    bexit=button(salir,salir2,700,400)
+    
+    
     
     
     while True:
         screen.blit(wallp,(0,0))
         cursor1.update()
+
+
+        #se actualizan los botones
+        bplay.update(screen,cursor1)
+        bexit.update(screen,cursor1)
+        binstruc.update(screen,cursor1)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()

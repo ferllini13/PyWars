@@ -25,6 +25,16 @@ class button(pygame.sprite.Sprite):#se crea la clase para los botones
 		self.basic_pic=self.unselected_pic #se define una imagen bacica qie inicia como la no seleccionada
 		self.rect=self.basic_pic.get_rect()
 		self.rect.left,self.rect.top=(x,y)
+<<<<<<< HEAD
+
+	def update(self,screen,cursor):#se actializa el boton
+		if cursor.colliderect(self.rect):#se define la condicion cuando el cursor se pocisione sobre el boton
+			self.basic_pic=self.selected_pic
+		else: self.basic_pic=self.unselected_pic #condicion del boton en stand by
+		screen.blit(self.basic_pic,self.rect)#que se actualiza la pantalla dependiendo de la accion condicional
+
+=======
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 
 	def update(self,screen,cursor):#se actializa el boton
 		if cursor.colliderect(self.rect):#se define la condicion cuando el cursor se pocisione sobre el boton
@@ -34,17 +44,14 @@ class button(pygame.sprite.Sprite):#se crea la clase para los botones
 
 
 def sizesWin(text1,y,screen):
-
-
 	#Title picture and buttons
-	crear=pygame.image.load("play.png")
-	unirse=pygame.image.load("play.png")
+	wallp4=pygame.image.load("wall4.jpg").convert()
 	salir=pygame.image.load("play.png")
+	salir2=pygame.image.load("play2.png")
 
-	wallp2=pygame.image.load("wall2.jpg").convert()
 	
 	#Define buttons
-	bcrear= button(crear,crear,50,250)
+	bexit=button(salir,salir2,500,600)
 	
 	#Variables
 	lenghtW=0
@@ -52,24 +59,34 @@ def sizesWin(text1,y,screen):
 	begin=True
 	place=120
 	cursor1=cursor()
+<<<<<<< HEAD
 
+=======
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 	pygame.init()
 	
 	#Events and updates
 	while begin==True:
-		cursor1.update()
-		
 		#Updates
+
+		screen.blit(wall4,(0,0))
+		cursor1.update()
+		bcrear.update(screen,cursor1)
+		bsalir
+
+
 		bcrear.update(screen,cursor1)
 		
 		back=pygame.image.load("back.png")
 		back2=pygame.image.load("back2.png")
 		bback=button(back,back2,10,5)
 		
+
 		#Makes the labels
 		myfont= pygame.font.SysFont("monospace",25)
 		myfont2= pygame.font.SysFont("monospace",16)
 
+<<<<<<< HEAD
 
 
 		labelInd= myfont.render(text1,1,WHITE)
@@ -82,6 +99,12 @@ def sizesWin(text1,y,screen):
 
 
 
+=======
+		labelInd= myfont.render(text1,1,WHITE)
+
+		screen.blit(labelInd,(10,y))
+
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 		for event in pygame.event.get():
 			#Events on keyboard, for the entry
 			if event.type==pygame.KEYDOWN:
@@ -96,8 +119,11 @@ def sizesWin(text1,y,screen):
 					label=myfont.render(chr(event.key),1,BLACK)
 					screen.blit(label,(place,y))
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 				elif event.key<=57 and event.key>=48 and lenghtW<15*10:
 					#This creates the text of the entry
 					textBuffer=textBuffer+chr(event.key)
@@ -132,7 +158,7 @@ def sizesWin(text1,y,screen):
 					back_sound.play()
 					return main()
 
-			#Submit button		
+			#Submit button
 			elif event.type == pygame.MOUSEBUTTONDOWN:
 				if cursor1.colliderect(bcrear.rect):
 					if len(textBuffer)>0:
@@ -143,8 +169,11 @@ def sizesWin(text1,y,screen):
 			elif event.type == pygame.QUIT:
 				return sys.exit(0)
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 		#Update the window		
 		pygame.display.flip()
 
@@ -156,7 +185,10 @@ def main():
 	wallp=pygame.image.load("wall.jpg").convert()
 	wallp2=pygame.image.load("wall2.jpg").convert()
 	wallp3=pygame.image.load("wall3.jpg").convert()
+<<<<<<< HEAD
 
+=======
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 	cursor1=cursor()
 
 	#se inportan las imagenes de los botones
@@ -166,10 +198,20 @@ def main():
 	instruc2=pygame.image.load("instruc2.png")
 	salir=pygame.image.load("exit.png")
 	salir2=pygame.image.load("exit2.png")
+<<<<<<< HEAD
+=======
+	back=pygame.image.load("back.png")
+	back2=pygame.image.load("back2.png")
+	start=pygame.image.load("start.png")
+	start2=pygame.image.load("start2.png")
+	join=pygame.image.load("join.png")
+	join2=pygame.image.load("join2.png")
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 	
 	bplay=button(play,play2,600,200)
 	binstruc=button(instruc,instruc2,650,300)
 	bexit=button(salir,salir2,700,400)
+<<<<<<< HEAD
 
 
 
@@ -178,6 +220,11 @@ def main():
 	bback=button(back,back2,10,5)
 
 
+=======
+	bback=button(back,back2,10,5)
+	bstart=button(start,start2,0,400)
+	bjoin=button(join,join2,700,400)
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 
 
 	while True:
@@ -191,11 +238,16 @@ def main():
 		for event in pygame.event.get():
 			if event.type == pygame.MOUSEBUTTONDOWN:
 				if cursor1.colliderect(bplay.rect):
+<<<<<<< HEAD
 					return play_main(1)
+=======
+					return play_main()
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 				elif cursor1.colliderect(binstruc.rect):
 					return game_instruc()
 				elif cursor1.colliderect(bexit.rect):
 					pygame.quit()
+<<<<<<< HEAD
 					sys.exit(0)
 			elif event.type == pygame.QUIT:
 				pygame.quit()
@@ -223,10 +275,39 @@ def main():
 						pygame.quit()
 						sys.exit(0)
 					elif event.type == pygame.MOUSEBUTTONDOWN:
+=======
+					sys.exit()
+			elif event.type == pygame.QUIT:
+				pygame.quit()
+				sys.exit()
+
+		pygame.display.flip()
+
+
+		def play_main():
+			while True:
+				screen.blit(wallp2,(0,0))
+				bback.update(screen,cursor1)
+				bstart.update(screen,cursor1)
+				bjoin.update(screen,cursor1)
+				cursor1.update()
+				for event in pygame.event.get():
+					if event.type == pygame.MOUSEBUTTONDOWN:
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 						if cursor1.colliderect(bback.rect):
 							pygame.mixer.pre_init(44100, -16, 1024) 
 							back_sound.play()
 							return main()
+<<<<<<< HEAD
+=======
+						elif cursor1.colliderect(bstart.rect):
+							return start_game()
+						elif cursor1.colliderect(bjoin.rect):
+							pass
+					elif event.type==pygame.QUIT:
+						pygame.quit()
+						sys.exit()
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 				pygame.display.flip()
 
 		def game_instruc():
@@ -237,7 +318,11 @@ def main():
 				for event in pygame.event.get():
 					if event.type == pygame.QUIT:
 						pygame.quit()
+<<<<<<< HEAD
 						sys.exit(0)
+=======
+						sys.exit()
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 					if event.type == pygame.MOUSEBUTTONDOWN:
 						if cursor1.colliderect(bback.rect):
 							pygame.mixer.pre_init(44100, -16, 1024) 
@@ -246,4 +331,11 @@ def main():
 				pygame.display.flip()
 
 
+<<<<<<< HEAD
+=======
+def start_game():
+	pass
+
+
+>>>>>>> 93113cc4964bd9d81477beb4c7819d9bb2892434
 main()

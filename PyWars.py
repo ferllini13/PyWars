@@ -33,12 +33,15 @@ class button(pygame.sprite.Sprite):#se crea la clase para los botones
         screen.blit(self.basic_pic,self.rect)#que se actualiza la pantalla dependiendo de la accion condicional
 
 
-def sizesWin(text1,screen):
-					
+def sizesWin(text1,y,screen):
+
+
 	#Title picture and buttons
 	crear=pygame.image.load("play.png")
 	unirse=pygame.image.load("play.png")
 	salir=pygame.image.load("play.png")
+
+	wallp2=pygame.image.load("wall2.jpg").convert()
 	
 	#Define buttons
 	bcrear= button(crear,crear,50,250)
@@ -62,35 +65,44 @@ def sizesWin(text1,screen):
 		#Makes the labels
 		myfont= pygame.font.SysFont("monospace",25)
 		myfont2= pygame.font.SysFont("monospace",16)
-	
-		labelInd= myfont.render(text1,1,BLACK)		
+
 		
 		
-		screen.blit(labelInd,(10,120))
-    
+		labelInd= myfont.render(text1,1,WHITE)
+
+		
+		
+		screen.blit(labelInd,(10,y))
+
+		
+
+		
 		
 		for event in pygame.event.get():
 			#Events on keyboard, for the entry
 			if event.type==pygame.KEYDOWN:
 				
 				#Limit the keys allowed to numbers
-				if	event.key<=122 and event.key>=97 and lenghtW<12*10:
+				if	event.key<=122 and event.key>=97 and lenghtW<15*10:
 					#This creates the text of the entry
 					textBuffer=textBuffer+chr(event.key)
 					lenghtW+=15
 					place=place+15
 					myfont= pygame.font.SysFont("monospace",25)
 					label=myfont.render(chr(event.key),1,BLACK)
-					screen.blit(label,(place,120))
+					screen.blit(label,(place,y))
 					
-				elif    event.key<=57 and event.key>=48 and lenghtW<12*10:
+					
+					
+				elif    event.key<=57 and event.key>=48 and lenghtW<15*10:
 					#This creates the text of the entry
 					textBuffer=textBuffer+chr(event.key)
 					lenghtW+=15
 					place=place+15
 					myfont= pygame.font.SysFont("monospace",25)
 					label=myfont.render(chr(event.key),1,BLACK)
-					screen.blit(label,(place,120))
+					screen.blit(label,(place,y))
+					
 				
 				#To delete the words
 				elif event.key == pygame.K_BACKSPACE and len(textBuffer)>0:
@@ -99,8 +111,10 @@ def sizesWin(text1,screen):
 					place=place-15
 					myfont= pygame.font.SysFont("monospace",25)
 					label=myfont.render(textBuffer,1,BLACK)
-					screen.fill(WHITE)
-					screen.blit(label,(130,120))
+					screen.blit(wallp2,(0,0))
+					pygame.draw.rect(screen, WHITE, [130,120, 150, 30],)
+					screen.blit(label,(130,y))
+					
 				
 				#This saves the entry
 				elif event.key==pygame.K_RETURN:
@@ -118,6 +132,8 @@ def sizesWin(text1,screen):
 			#To Close the window
 			elif event.type == pygame.QUIT:
 				return sys.exit(0)
+
+		
 
 		#Update the window		
 		pygame.display.flip()
@@ -165,7 +181,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if cursor1.colliderect(bplay.rect):
-                    return play_main()
+                    return play_main(1)
                 elif cursor1.colliderect(binstruc.rect):
                     return game_instruc()
                 elif cursor1.colliderect(bexit.rect):
@@ -177,13 +193,23 @@ def main():
         pygame.display.flip()
 
 
-        def play_main():
+        def play_main(x):
             while True:
                 screen.blit(wallp2,(0,0))
                 bback.update(screen,cursor1)
                 cursor1.update()
                 for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
+                    if x==1:
+                        pygame.draw.rect(screen, WHITE, [130,120, 150, 30],)
+                        usuario=sizesWin('Usuario:',120,screen)
+                        print('Welcome '+usuario)
+                    elif x==2:
+                        pygame.draw.rect(screen, WHITE, [130,120, 150, 30],)
+                        usuario=sizesWin('Usuario:',120,screen)
+                        pygame.draw.rect(screen, WHITE, [130,160, 150, 30],)
+                        juego=sizesWin('Juego',160,screen)
+                        print('Welcome '+usuario+' su juego es el '+juego)
+                    elif event.type == pygame.QUIT:
                         pygame.quit()
                         sys.exit(0)
                     elif event.type == pygame.MOUSEBUTTONDOWN:

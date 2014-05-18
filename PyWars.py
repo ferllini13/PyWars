@@ -6,6 +6,9 @@ pygame.mixer.init()
 pygame.mixer.music.load("sound.mp3")
 select_sound= pygame.mixer.Sound("select.wav")
 
+BLACK = (  0,   0,   0)
+WHITE = (255, 255, 255)
+    
 #se cra la clase cursor, que es un rectangulo qeu sigue al mouse
 class cursor(pygame.Rect):
     def __init__(self):
@@ -29,23 +32,22 @@ class button(pygame.sprite.Sprite):#se crea la clase para los botones
         else: self.basic_pic=self.unselected_pic #condicion del boton en stand by
         screen.blit(self.basic_pic,self.rect)#que se actualiza la pantalla dependiendo de la accion condicional
 
+
 def sizesWin(text1,screen):
-	#Set backgroud
-	screen = pygame.display.set_mode((1000,600))
-	screen.fill((255, 255, 255))
 					
 	#Title picture and buttons
-	selectSize=pygame.image.load("one.jpg")
-	submit0=pygame.image.load("two.jpg")
+	crear=pygame.image.load("play.png")
+	unirse=pygame.image.load("play.png")
+	salir=pygame.image.load("play.png")
 	
 	#Define buttons
-	bSubmit= Button(submit0,submit0,50,250)
+	bcrear= button(crear,crear,50,250)
 	
 	#Variables
 	lenghtW=0
 	textBuffer = ''
 	begin=True
-	place=100
+	place=120
 	cursor1=cursor()
 					
 	pygame.init()
@@ -53,25 +55,19 @@ def sizesWin(text1,screen):
 	#Events and updates
 	while begin==True:
 		cursor1.update()
+		
 		#Updates
-		screen.blit(selectSize,(10,0))
-		bSubmit.update(screen,cursor1)	
+		bcrear.update(screen,cursor1)	
 		
 		#Makes the labels
 		myfont= pygame.font.SysFont("monospace",25)
 		myfont2= pygame.font.SysFont("monospace",16)
 	
 		labelInd= myfont.render(text1,1,BLACK)		
-		labelNotAllowed1= myfont2.render("The maximun "+text1,1,BLACK)
-		labelNotAllowed2= myfont2.render("allowed is: "+text2,1,BLACK)
-		labelNotAllowed3= myfont2.render("The minimun "+text1,1,BLACK)
-		labelNotAllowed4= myfont2.render("allowed is: "+text3,1,BLACK)
+		
 		
 		screen.blit(labelInd,(10,120))
-		screen.blit(labelNotAllowed1,(10,180))
-		screen.blit(labelNotAllowed2,(10,200))
-		screen.blit(labelNotAllowed3,(10,220))
-		screen.blit(labelNotAllowed4,(10,240))
+    
 		
 		for event in pygame.event.get():
 			#Events on keyboard, for the entry
@@ -104,7 +100,7 @@ def sizesWin(text1,screen):
 					myfont= pygame.font.SysFont("monospace",25)
 					label=myfont.render(textBuffer,1,BLACK)
 					screen.fill(WHITE)
-					screen.blit(label,(112,120))
+					screen.blit(label,(130,120))
 				
 				#This saves the entry
 				elif event.key==pygame.K_RETURN:
@@ -114,7 +110,7 @@ def sizesWin(text1,screen):
 
 			#Submit button		
 			elif event.type == pygame.MOUSEBUTTONDOWN:
-				if cursor1.colliderect(bSubmit.rect):
+				if cursor1.colliderect(bcrear.rect):
 					if len(textBuffer)>0:
 						begin=False
 						return textBuffer
@@ -130,7 +126,7 @@ def sizesWin(text1,screen):
 def main():
     pygame.init()
     screen=pygame.display.set_mode([1000,720])
-    pygame.display.set_caption("Tarea Corta")
+    pygame.display.set_caption("PYWARS")
     wallp=pygame.image.load("wall2.jpg").convert()
     pygame.mixer.music.play()
     cursor1=cursor()
@@ -154,14 +150,27 @@ def main():
         screen.blit(wallp,(0,0))
         cursor1.update()
 
-
         #se actualizan los botones
         bplay.update(screen,cursor1)
         bexit.update(screen,cursor1)
         binstruc.update(screen,cursor1)
         
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if cursor1.colliderect(bplay.rect):
+                    screen=pygame.display.set_mode([1000,720])
+                    screen.blit(wallp,(0,0))
+                    pygame.display.set_caption("PYWARS")
+                    wallp=pygame.image.load("wall2.jpg").convert()
+                    pygame.mixer.music.load("select.wav")
+                    pygame.mixer.music.play()
+                    usuario=sizesWin('Usuario:',screen)
+                    print('Welcome'+usuario)
+                elif cursor1.colliderect(binstruc.rect):
+                    return main2(square)
+                elif cursor1.colliderect(bexit.rect):
+                    return main2(rectangle)
+            elif event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit(0)         
         pygame.display.flip()

@@ -54,10 +54,19 @@ def sizesWin(text1,y,screen):
 	#Events and updates
 	while begin==True:
 		#Updates
+
 		screen.blit(wall4,(0,0))
 		cursor1.update()
 		bcrear.update(screen,cursor1)
 		bsalir
+
+
+		bcrear.update(screen,cursor1)
+		
+		back=pygame.image.load("back.png")
+		back2=pygame.image.load("back2.png")
+		bback=button(back,back2,10,5)
+		
 
 		#Makes the labels
 		myfont= pygame.font.SysFont("monospace",25)

@@ -4,9 +4,10 @@ from pygame.locals import *
 
 pygame.mixer.init()
 pygame.mixer.music.load("sound.mp3")
-select_sound= pygame.mixer.Sound("select.wav")
+back_sound= pygame.mixer.Sound("back.wav")
+pygame.mixer.music.play()
 
-BLACK = (  0,   0,   0)
+BLACK = (0,0,0)
 WHITE = (255, 255, 255)
     
 #se cra la clase cursor, que es un rectangulo qeu sigue al mouse
@@ -28,7 +29,6 @@ class button(pygame.sprite.Sprite):#se crea la clase para los botones
     def update(self,screen,cursor):#se actializa el boton
         if cursor.colliderect(self.rect):#se define la condicion cuando el cursor se pocisione sobre el boton
             self.basic_pic=self.selected_pic
-            select_sound.play
         else: self.basic_pic=self.unselected_pic #condicion del boton en stand by
         screen.blit(self.basic_pic,self.rect)#que se actualiza la pantalla dependiendo de la accion condicional
 
@@ -127,8 +127,10 @@ def main():
     pygame.init()
     screen=pygame.display.set_mode([1000,720])
     pygame.display.set_caption("PYWARS")
-    wallp=pygame.image.load("wall2.jpg").convert()
-    pygame.mixer.music.play()
+    wallp=pygame.image.load("wall.jpg").convert()
+    wallp2=pygame.image.load("wall2.jpg").convert()
+    wallp3=pygame.image.load("wall3.jpg").convert()
+    
     cursor1=cursor()
 
     #se inportan las imagenes de los botones
@@ -142,6 +144,12 @@ def main():
     bplay=button(play,play2,600,200)
     binstruc=button(instruc,instruc2,650,300)
     bexit=button(salir,salir2,700,400)
+
+
+
+    back=pygame.image.load("back.png")
+    back2=pygame.image.load("back2.png")
+    bback=button(back,back2,10,5)
     
     
     
@@ -154,26 +162,52 @@ def main():
         bplay.update(screen,cursor1)
         bexit.update(screen,cursor1)
         binstruc.update(screen,cursor1)
-        
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if cursor1.colliderect(bplay.rect):
-                    screen=pygame.display.set_mode([1000,720])
-                    screen.blit(wallp,(0,0))
-                    pygame.display.set_caption("PYWARS")
-                    wallp=pygame.image.load("wall2.jpg").convert()
-                    pygame.mixer.music.load("select.wav")
-                    pygame.mixer.music.play()
-                    usuario=sizesWin('Usuario:',screen)
-                    print('Welcome'+usuario)
+                    return play_main()
                 elif cursor1.colliderect(binstruc.rect):
-                    return main2(square)
+                    return game_instruc()
                 elif cursor1.colliderect(bexit.rect):
-                    return main2(rectangle)
+                    pygame.quit()
+                    sys.exit(0)
             elif event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit(0)         
         pygame.display.flip()
-    
+
+
+        def play_main():
+            while True:
+                screen.blit(wallp2,(0,0))
+                bback.update(screen,cursor1)
+                cursor1.update()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit(0)
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        if cursor1.colliderect(bback.rect):
+                            pygame.mixer.pre_init(44100, -16, 1024) 
+                            back_sound.play()
+                            return main()
+                pygame.display.flip()
+
+        def game_instruc():
+            while True:
+                screen.blit(wallp3,(0,0))
+                bback.update(screen,cursor1)
+                cursor1.update()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit(0)
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if cursor1.colliderect(bback.rect):
+                            pygame.mixer.pre_init(44100, -16, 1024) 
+                            back_sound.play()
+                            return main()
+                pygame.display.flip()
+            
     
 main()

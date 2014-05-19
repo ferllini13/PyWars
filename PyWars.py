@@ -5,7 +5,7 @@ from pygame.locals import *
 pygame.mixer.init()
 pygame.mixer.music.load("sound.mp3")
 back_sound= pygame.mixer.Sound("back.wav")
-pygame.mixer.music.play(loops=-1)
+pygame.mixer.music.play()
 
 BLACK=(0,0,0)
 WHITE=(255, 255, 255)

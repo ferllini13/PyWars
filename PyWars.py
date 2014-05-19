@@ -319,6 +319,13 @@ def main():
 				pygame.display.flip()
 
 def play_game(username):
-        pass
+	pygame.init()
+	screen=pygame.display.set_mode([1000,720])
+	pygame.display.set_caption("PyWars")
+	tablero=pygame.image.load("tablero.jpg").convert()
+	screen.blit(tablero,(0,0))
+	cursor1=cursor()
+	pygame.display.flip()
+
 
 main()

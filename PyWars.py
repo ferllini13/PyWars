@@ -7,8 +7,8 @@ pygame.mixer.music.load("sound.mp3")
 back_sound= pygame.mixer.Sound("back.wav")
 pygame.mixer.music.play()
 
-BLACK = (0,0,0)
-WHITE = (255, 255, 255)
+BLACK=(0,0,0)
+WHITE=(255, 255, 255)
 
 #se cra la clase cursor, que es un rectangulo qeu sigue al mouse
 class cursor(pygame.Rect):
@@ -33,15 +33,22 @@ class button(pygame.sprite.Sprite):#se crea la clase para los botones
 		screen.blit(self.basic_pic,self.rect)#que se actualiza la pantalla dependiendo de la accion condicional
 
 
-def sizesWin(text1,y,screen,z):
+def sizesWin(text1,y,screen):
 	#Title picture and buttons
 	wallp4=pygame.image.load("wall4.jpg").convert()
 	salir=pygame.image.load("play.png")
 	salir2=pygame.image.load("play2.png")
+	back=pygame.image.load("back.png")
+	back2=pygame.image.load("back2.png")
+	start=pygame.image.load("start.png")
+	start2=pygame.image.load("start2.png")
 
 	
 	#Define buttons
 	bexit=button(salir,salir2,500,600)
+	bback=button(back,back2,10,5)
+	bstart=button(start,start2,0,400)
+	
 	
 	#Variables
 	lenghtW=0
@@ -50,35 +57,18 @@ def sizesWin(text1,y,screen,z):
 	place=120
 	cursor1=cursor()
 	pygame.init()
-	
-	#Events and updates
+
 	while begin==True:
-		#Updates
-
-		
 		cursor1.update()
-
-		
-		back=pygame.image.load("back.png")
-		back2=pygame.image.load("back2.png")
-		bback=button(back,back2,10,5)
-		
-		
 
 		#Makes the labels
 		myfont= pygame.font.SysFont("monospace",25)
 		myfont2= pygame.font.SysFont("monospace",16)
-
 		labelInd= myfont.render(text1,1,WHITE)
-		screen.blit(wallp4,(0,0))
+		
 		bback.update(screen,cursor1)
-		if z==1:
-			pygame.draw.rect(screen, WHITE, [130,120, 150, 30],)
-		else:
-			pygame.draw.rect(screen, WHITE, [130,120, 150, 30],)
-			pygame.draw.rect(screen, WHITE, [130,160, 150, 30],)
+		bstart.update(screen,cursor1)
 		screen.blit(labelInd,(10,y))
-
 		for event in pygame.event.get():
 			#Events on keyboard, for the entry
 			if event.type==pygame.KEYDOWN:
@@ -119,28 +109,31 @@ def sizesWin(text1,y,screen,z):
 				#This saves the entry
 				elif event.key==pygame.K_RETURN:
 					if len(textBuffer)>0:
-						begin=False
 						return textBuffer
+						begin=False
+						
 			elif event.type == pygame.MOUSEBUTTONDOWN:
 				if cursor1.colliderect(bback.rect):
 					pygame.mixer.pre_init(44100, -16, 1024)
 					back_sound.play()
 					return main()
-
-			#Submit button
-			elif event.type == pygame.MOUSEBUTTONDOWN:
-				if cursor1.colliderect(bcrear.rect):
+				elif cursor1.colliderect(bstart.rect):
 					if len(textBuffer)>0:
-						begin=False
 						return textBuffer
+						begin=False
+						print(textBuffer)
+						
+			elif event.type==pygame.QUIT:
+				pygame.quit()
+				sys.exit()
 
 			#To Close the window
 			elif event.type == pygame.QUIT:
 				return sys.exit(0)
 
-		#Update the window		
+			#Update the window
+			pygame.display.flip()
 		pygame.display.flip()
-
 
 def main():
 	pygame.init()
@@ -212,9 +205,9 @@ def main():
 							back_sound.play()
 							return main()
 						elif cursor1.colliderect(bstart.rect):
-							return start_game()
+							return start_join_game(1)
 						elif cursor1.colliderect(bjoin.rect):
-							return join_game()
+							return start_join_game(2)
 					elif event.type==pygame.QUIT:
 						pygame.quit()
 						sys.exit()
@@ -235,36 +228,20 @@ def main():
 							back_sound.play()
 							return main()
 				pygame.display.flip()
-		def start_game():
-			cursor1.update()
-			usuario=sizesWin('Usuario:',120,screen,1)
-			print(usuario)
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					pygame.quit()
-					sys.exit()
-				if event.type == pygame.MOUSEBUTTONDOWN:
-					if cursor1.colliderect(bback.rect):
-						pygame.mixer.pre_init(44100, -16, 1024) 
-						back_sound.play()
-						return main()
-				pygame.display.flip()
-				
-		def join_game():
-			cursor1.update()
-			usuario=sizesWin('Usuario:',120,screen,2)
-			partida=sizesWin('Partida:',160,screen,2)
-			print(usuario,partida)
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					pygame.quit()
-					sys.exit()
-				if event.type == pygame.MOUSEBUTTONDOWN:
-					if cursor1.colliderect(bback.rect):
-						pygame.mixer.pre_init(44100, -16, 1024) 
-						back_sound.play()
-						return main()
-				pygame.display.flip()
-			
+		def start_join_game(kind_game):
+			wallp4=pygame.image.load("wall4.jpg").convert()
+			screen.blit(wallp4,(0,0))
+			if kind_game==1:
+				pygame.draw.rect(screen, WHITE, [130,120, 150, 30],)
+				user=sizesWin('User:',120,screen)
+				print('welcome'+user)
+			elif kind_game==2:
+				pygame.draw.rect(screen, WHITE, [130,120, 150, 30],)
+				user=sizesWin('User:',120,screen)
+				pygame.draw.rect(screen, WHITE, [130,160, 150, 30],)
+				partida=sizesWin('Partida:',160,screen)
+				print(user,partida)
+
+
 
 main()

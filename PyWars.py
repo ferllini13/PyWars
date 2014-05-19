@@ -188,7 +188,7 @@ class Input:
 def main():
 	pygame.init()
 	screen=pygame.display.set_mode([1000,720])
-	pygame.display.set_caption("PYWARS")
+	pygame.display.set_caption("PyWars")
 	wallp=pygame.image.load("wall.jpg").convert()
 	wallp2=pygame.image.load("wall2.jpg").convert()
 	wallp3=pygame.image.load("wall3.jpg").convert()
@@ -208,6 +208,10 @@ def main():
 	start2=pygame.image.load("start2.png")
 	join=pygame.image.load("join.png")
 	join2=pygame.image.load("join2.png")
+	ready=pygame.image.load("ready.png")
+	ready2=pygame.image.load("ready2.png")
+	mainm=pygame.image.load("main.png")
+	mainm2=pygame.image.load("main2.png")
 	
 	bplay=button(play,play2,600,200)
 	binstruc=button(instruc,instruc2,650,300)
@@ -215,6 +219,10 @@ def main():
 	bback=button(back,back2,10,5)
 	bstart=button(start,start2,0,400)
 	bjoin=button(join,join2,700,400)
+	bready=button(ready,ready2,400,30)
+	bmain=button(mainm,mainm2,700,30)
+
+	
 
 
 	while True:
@@ -285,20 +293,32 @@ def main():
 		
 			
 			while True:
+				cursor1.update()
 				screen.blit(wallp4,(0,0))
 				events=pygame.event.get()
 				user=txtbx.update(events)
 				txtbx.draw(screen)
+				select_name=""
+				bready.update(screen,cursor1)
+				bmain.update(screen,cursor1)
+				
 				for event in events:
 					if event.type == QUIT:
 						pygame.quit()
 						sys.exit()
 					if event.type == KEYDOWN:
 						if event.key==pygame.K_RETURN:
-							print(user)
-					#if cursor1.colliderect(
-
+							select_name=user
+					if event.type == pygame.MOUSEBUTTONDOWN:
+						if cursor1.colliderect(bready.rect):
+							if select_name==[]:
+								return play_game(player)
+							else: return play_game(select_name)
+						elif cursor1.colliderect(bmain.rect):
+							return main()
 				pygame.display.flip()
 
+def play_game(username):
+        pass
 
 main()
